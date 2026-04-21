@@ -190,7 +190,28 @@ function closePortal(){
 }
 
 const phrases = ["Te amo como una Singularidad", "Cross my Heart", "Te quiero para siempre", "Seremos infinitos", "Tu y Yo, Nosotros", "MIL OCHOMIL", "Nuestro propio mundo"];
-document.getElementById("blackHolePage").addEventListener("click", (e) => {
+const blackHole = document.getElementById("blackHolePage");
+
+["click", "touchstart"].forEach(evt => {
+  blackHole.addEventListener(evt, (e) => {
+    // Prevents the "ghost click" (doing the action twice on mobile)
+    if (evt === "touchstart") e.preventDefault(); 
+    
+    if(e.target.id === "backBtn") return;
+    
+    // Get coordinates for either touch or mouse
+    let clientX = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+    let clientY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
+
+    let el = document.createElement("div");
+    el.className = "phrase";
+    el.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+    el.style.left = clientX + "px";
+    el.style.top = clientY + "px";
+    blackHole.appendChild(el);
+    setTimeout(() => el.remove(), 3000);
+  }, {passive: false});
+});
     if(e.target.id === "backBtn") return;
     let el = document.createElement("div");
     el.className = "phrase";
