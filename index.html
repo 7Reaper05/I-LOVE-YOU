@@ -62,7 +62,7 @@ body { margin: 0; padding: 0; overflow: hidden; font-family: 'Courier New', mono
 .photo-frame img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* 📸 This makes horizontal/vertical fit perfectly */
+    object-fit: contain;
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
@@ -154,8 +154,6 @@ function generatePhotos() {
         fullList.forEach(src => {
             const frame = document.createElement('div');
             frame.className = 'photo-frame';
-            
-            // Random slight rotation for that "scattered photo" look
             const randomRot = (Math.random() * 6 - 3).toFixed(2);
             frame.style.transform = `rotate(${randomRot}deg)`;
             
@@ -194,12 +192,9 @@ const blackHole = document.getElementById("blackHolePage");
 
 ["click", "touchstart"].forEach(evt => {
   blackHole.addEventListener(evt, (e) => {
-    // Prevents the "ghost click" (doing the action twice on mobile)
     if (evt === "touchstart") e.preventDefault(); 
-    
     if(e.target.id === "backBtn") return;
     
-    // Get coordinates for either touch or mouse
     let clientX = e.clientX || (e.touches ? e.touches[0].clientX : 0);
     let clientY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
 
@@ -211,15 +206,6 @@ const blackHole = document.getElementById("blackHolePage");
     blackHole.appendChild(el);
     setTimeout(() => el.remove(), 3000);
   }, {passive: false});
-});
-    if(e.target.id === "backBtn") return;
-    let el = document.createElement("div");
-    el.className = "phrase";
-    el.innerText = phrases[Math.floor(Math.random() * phrases.length)];
-    el.style.left = e.clientX + "px";
-    el.style.top = e.clientY + "px";
-    document.getElementById("blackHolePage").appendChild(el);
-    setTimeout(() => el.remove(), 3000);
 });
 
 /* 🌌 BLACK HOLE SHADER */
